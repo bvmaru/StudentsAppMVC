@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using StudentsAppMVC.Data;
 using StudentsAppMVC.Models;
+
 
 namespace StudentsAppMVC.Controllers
 {
@@ -65,6 +67,7 @@ namespace StudentsAppMVC.Controllers
         public ActionResult Edit(int id, StudentModel studentModel)
         {
             var studentToBeEdited = _dbContext.Students.FirstOrDefault(x => x.StudentId == id);
+            studentModel.StudentId = studentToBeEdited.StudentId;
             _dbContext.Students.Remove(studentToBeEdited);
             _dbContext.Students.Add(studentModel);
             _dbContext.SaveChanges();
