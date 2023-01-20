@@ -55,22 +55,20 @@ namespace StudentsAppMVC.Controllers
         // GET: StudentController/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            var studentToBeEdited = _dbContext.Students.FirstOrDefault(x => x.StudentId == id);
+            return View(studentToBeEdited);
         }
 
         // POST: StudentController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(int id, StudentModel studentModel)
         {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            var studentToBeEdited = _dbContext.Students.FirstOrDefault(x => x.StudentId == id);
+            _dbContext.Students.Remove(studentToBeEdited);
+            _dbContext.Students.Add(studentModel);
+            _dbContext.SaveChanges();
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: StudentController/Delete/5
