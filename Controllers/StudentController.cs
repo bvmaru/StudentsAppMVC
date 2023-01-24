@@ -67,9 +67,13 @@ namespace StudentsAppMVC.Controllers
         public ActionResult Edit(int id, StudentModel studentModel)
         {
             var studentToBeEdited = _dbContext.Students.FirstOrDefault(x => x.StudentId == id);
-            studentModel.StudentId = studentToBeEdited.StudentId;
-            _dbContext.Students.Remove(studentToBeEdited);
-            _dbContext.Students.Add(studentModel);
+
+            studentToBeEdited.Name = studentModel.Name;
+            studentToBeEdited.LastName = studentModel.LastName;
+            studentToBeEdited.Age = studentModel.Age;
+            studentToBeEdited.Email = studentModel.Email;
+
+            _dbContext.Students.Update(studentToBeEdited);
             _dbContext.SaveChanges();
             return RedirectToAction(nameof(Index));
         }
